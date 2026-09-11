@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 3
     env:
       TG_API_ID: ${{ vars.TG_API_ID }}
-      TARGET_BOT: @TudsySignalProBot
+      TARGET_BOT: "@TudsySignalProBot"
       BUTTON_TEXT: "📊 Statistics"
       TG_API_HASH: ${{ secrets.TG_API_HASH }}
       TG_SESSION: ${{ secrets.TG_SESSION }}
