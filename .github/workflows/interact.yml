@@ -1,0 +1,47 @@
+name: Tudsy bot interaction
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Discover buttons without clicking, or perform the configured click"
+        required: true
+        default: discover
+        type: choice
+        options:
+          - discover
+          - click
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tudsy-bot-interaction
+  cancel-in-progress: true
+
+jobs:
+  interact:
+    if: ${{ vars.ENABLED == 'true' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      TG_API_ID: ${{ vars.TG_API_ID }}
+      TARGET_BOT: ${{ vars.TARGET_BOT }}
+      BUTTON_TEXT: ${{ vars.BUTTON_TEXT }}
+      TG_API_HASH: ${{ secrets.TG_API_HASH }}
+      TG_SESSION: ${{ secrets.TG_SESSION }}
+      MODE: ${{ github.event.inputs.mode || 'click' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependency
+        run: pip install -r requirements.txt
+      - name: Interact with bot
+        run: python interact.py
