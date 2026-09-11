@@ -34,7 +34,7 @@ jobs:
       BUTTON_TEXT: "🔄 Keep Active"
       TG_API_HASH: ${{ secrets.TG_API_HASH }}
       TG_SESSION: ${{ secrets.TG_SESSION }}
-      MODE: "discover"
+      MODE: "click"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
