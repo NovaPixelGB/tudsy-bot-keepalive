@@ -1,6 +1,9 @@
 name: Tudsy bot interaction
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
@@ -23,7 +26,7 @@ concurrency:
 
 jobs:
   interact:
-    if: ${{ vars.ENABLED == 'true' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ vars.ENABLED == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
     env:
@@ -32,7 +35,7 @@ jobs:
       BUTTON_TEXT: ${{ vars.BUTTON_TEXT }}
       TG_API_HASH: ${{ secrets.TG_API_HASH }}
       TG_SESSION: ${{ secrets.TG_SESSION }}
-      MODE: ${{ github.event.inputs.mode || 'click' }}
+      MODE: ${{ github.event_name == 'push' && 'discover' || github.event.inputs.mode || 'click' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
