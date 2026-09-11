@@ -31,10 +31,10 @@ jobs:
     env:
       TG_API_ID: ${{ vars.TG_API_ID }}
       TARGET_BOT: "@TudsySignalProBot"
-      BUTTON_TEXT: "🔄 Keep Active"
+      BUTTON_TEXT: "⬅️ Main Menu"
       TG_API_HASH: ${{ secrets.TG_API_HASH }}
       TG_SESSION: ${{ secrets.TG_SESSION }}
-      MODE: "discover"
+      MODE: "click"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
